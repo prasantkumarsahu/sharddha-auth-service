@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-change-id-to-uuid
+      author: prasant
+      changes:
+        - dropColumn:
+            columnName: id
+            tableName: refresh_tokens
+        - addColumn:
+            tableName: refresh_tokens
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: "gen_random_uuid()"
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: refresh_tokens
+            columnNames: id
+            constraintName: pk_refresh_tokens_id

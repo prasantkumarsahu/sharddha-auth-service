@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: AUTH-SERVICE
+    api:
+      version: v1
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+#  liquibase:
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+server:
+  port: 8082
+  servlet:
+    context-path: /auth-service/api/${spring.application.api.version:v1}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+  instance:
+    metadata-map:
+      contextPath: ${server.servlet.context-path:}
+      apiDocsPath: ${springdoc.api-docs.path:/v3/api-docs}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+jwt:
+  secret: bXktc3VwZXItc2VjcmV0LXNob3VsZC1iZS1iYXNlNjQtZW5jb2RlZA==
+  expiration: 15 # Minutes
+  refresh-expiration: 168 # Hours
