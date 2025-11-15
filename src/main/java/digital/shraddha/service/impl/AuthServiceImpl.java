@@ -54,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
 				validatedToken.token(),
 				validatedToken.expiresAt(),
 				authUser.getUserId().toString(),
+                validatedToken.deviceId().toString(),
 				authUser.getUsername(),
 				authUser.getEmail()
 		);
@@ -147,6 +148,7 @@ public class AuthServiceImpl implements AuthService {
 				storedRefreshToken.token(),
 				storedRefreshToken.expiresAt(),
 				authUser.getUserId().toString(),
+                storedRefreshToken.deviceId().toString(),
 				authUser.getUsername(),
 				authUser.getEmail()
 		);

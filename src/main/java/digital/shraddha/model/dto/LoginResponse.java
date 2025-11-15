@@ -7,6 +7,7 @@ public record LoginResponse(
 		String refreshToken,
 		LocalDateTime refreshTokenExpiresAt,
 		String userId,
+        String deviceId,
 		String username,
 		String email
 ) {
