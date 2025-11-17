@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new IllegalArgumentException("Invalid username/email or password.");
 		}
 
-		return generateTokens(authUser, request.deviceName(), request.deviceId());
+		return generateTokens(request.emailOrUsername(), authUser, request.deviceName(), request.deviceId());
 	}
 
 	@Override
@@ -130,11 +130,11 @@ public class AuthServiceImpl implements AuthService {
 		authUser.setPassword(passwordEncoder.encode(request.password()));
 		authUser = authUserRepo.save(authUser);
 
-		return generateTokens(authUser, request.deviceName(), null);
+		return generateTokens(authUser.getUsername(), authUser, request.deviceName(), null);
 	}
 
-	private LoginResponse generateTokens(AuthUser authUser, String deviceName, UUID deviceId) {
-		String accessToken = jwtService.generateToken(authUser.getUsername());
+	private LoginResponse generateTokens(String sub, AuthUser authUser, String deviceName, UUID deviceId) {
+		String accessToken = jwtService.generateToken(sub);
 
 		UUID finalDeviceId = deviceId != null ? deviceId : UUID.randomUUID();
 
